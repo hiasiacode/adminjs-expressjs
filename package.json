@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "dev": "rm -rf lib && tsc --watch",
-    "build": "rm -rf lib && tsc",
+    "build": "tsc",
+    "build_": "rm -rf lib &&",
     "example:simple": "nodemon",
     "example:auth": "nodemon --config nodemon.auth.json",
     "test": "jest --config ./test/jest.json",

@@ -10,12 +10,11 @@ const getLogoutPath = (admin: AdminJS) => {
     : `/${normalizedLogoutPath}`;
 };
 
-export const withLogout = (router: Router, admin: AdminJS): void => {
+const withLogout = (router, admin) => {
   const logoutPath = getLogoutPath(admin);
-
   router.get(logoutPath, async (request, response) => {
     request.session.destroy(() => {
-      response.redirect(admin.options.loginPath);
+      response.redirect("/authclient?msg=logout");
     });
   });
 };

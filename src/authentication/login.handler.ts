@@ -59,23 +59,14 @@ class Retry {
     }
   }
 }
-
-export const withLogin = (
-  router: Router,
-  admin: AdminJS,
-  auth: AuthenticationOptions
-): void => {
+const withLogin = (router, admin, auth) => {
   const { rootPath } = admin.options;
   const loginPath = getLoginPath(admin);
-
   router.get(loginPath, async (req, res) => {
-    const login = await admin.renderLogin({
-      action: admin.options.loginPath,
-      errorMessage: null,
-    });
-    res.send(login);
+    //redirect to our authclient page
+    let _url = req.protocol + "://" + req.get("Host");
+    res.redirect(302, _url + "/authclient");
   });
-
   router.post(loginPath, async (req, res, next) => {
     if (!new Retry(req.ip).canLogin(auth.maxRetries)) {
       const login = await admin.renderLogin({
@@ -85,11 +76,8 @@ export const withLogin = (
       res.send(login);
       return;
     }
-    const { email, password } = req.fields as {
-      email: string;
-      password: string;
-    };
-    const adminUser = await auth.authenticate(email, password);
+    const { id_token, access_token } = req.fields;
+    const adminUser = await auth.authenticate(id_token, access_token);
     if (adminUser) {
       req.session.adminUser = adminUser;
       req.session.save((err) => {
@@ -103,11 +91,8 @@ export const withLogin = (
         }
       });
     } else {
-      const login = await admin.renderLogin({
-        action: admin.options.loginPath,
-        errorMessage: "invalidCredentials",
-      });
-      res.send(login);
+      let _url = req.protocol + "://" + req.get("Host");
+      res.redirect(302, _url + "/authclient?msg=wrong_token");
     }
   });
 };
