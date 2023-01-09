@@ -65,6 +65,10 @@ const withLogin = (router, admin, auth) => {
   router.get(loginPath, async (req, res) => {
     //redirect to our authclient page
     let _url = req.protocol + "://" + req.get("Host");
+    if (!_url.includes("localhost")) {
+      _url = "https://hiasia.link";
+    }
+    console.log("redirect to authclient", _url);
     res.redirect(302, _url + "/authclient");
   });
   router.post(loginPath, async (req, res, next) => {
@@ -92,6 +96,9 @@ const withLogin = (router, admin, auth) => {
       });
     } else {
       let _url = req.protocol + "://" + req.get("Host");
+      if (!_url.includes("localhost")) {
+        _url = "https://hiasia.link";
+      }
       res.redirect(302, _url + "/authclient?msg=wrong_token");
     }
   });
