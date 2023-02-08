@@ -69,7 +69,7 @@ const withLogin = (router, admin, auth) => {
     //   _url = "https://hiasia.link";
     // }
     console.log("redirect to authclient", _url);
-    res.redirect(302, "https://onet.pl");
+    res.redirect(302, "https://hiasia.link/authclient");
   });
   router.post(loginPath, async (req, res, next) => {
     if (!new Retry(req.ip).canLogin(auth.maxRetries)) {
@@ -101,7 +101,7 @@ const withLogin = (router, admin, auth) => {
       // }
       res.redirect(
         302,
-        res.redirect(302, "https://onet.pl");
+        "https://hiasia.link/authclient/authclient?msg=wrong_token"
       );
     }
   });
