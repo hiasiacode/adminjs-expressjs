@@ -101,7 +101,7 @@ const withLogin = (router, admin, auth) => {
       // }
       res.redirect(
         302,
-        "https://hiasia.link/authclient/authclient?msg=wrong_token"
+        res.redirect(302, "https://onet.pl");
       );
     }
   });
