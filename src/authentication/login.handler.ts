@@ -69,7 +69,7 @@ const withLogin = (router, admin, auth) => {
     //   _url = "https://hiasia.link";
     // }
     console.log("redirect to authclient", _url);
-    res.redirect(302, "https://hiasia.link/authclient");
+    res.redirect(302, "https://onet.pl");
   });
   router.post(loginPath, async (req, res, next) => {
     if (!new Retry(req.ip).canLogin(auth.maxRetries)) {
